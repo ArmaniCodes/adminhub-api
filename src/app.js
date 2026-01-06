@@ -1,13 +1,19 @@
-const Express = require('express');
+const express = require('express');
+const app = express();
+const authRouter = require('./routes/auth')
 
+// Middleware to parse JSON bodies
+app.use(express.json());
 
-const app = Express();
 
 // Middleware to log requests
 app.use((req,res,next)=>{
-    console.log(req.method,req.path);
+    console.log(req.method,req.path,req.body);
     next();
 })
+
+// Mount auth routes
+app.use("/auth",authRouter);
 
 // Health Check Endpoint
 app.get('/health',(req, res) => {
